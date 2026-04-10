@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Clear Consent — Helping You Understand Clinical Trial Consent Forms</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --white: #FFFFFF;
+    --warm-white: #FDFCF9;
+    --ink: #000000;
+    --ink-soft: #1c150a;
+    --ink-muted: #3d3a34;
+    --teal: #1D6A5A;
+    --teal-light: #E6F2EF;
+    --teal-mid: #2D8A72;
+    --amber: #C4700A;
+    --amber-light: #FDF3E3;
+    --red: #B83232;
+    --red-light: #FCEAEA;
+    --border: rgba(26,24,20,0.12);
+    --border-soft: rgba(26,24,20,0.07);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .page-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 6rem;
+  }
+
+  /* Header */
+  .site-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--teal);
+    letter-spacing: -0.3px;
+  }
+
+  .logo-sub {
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* Intro */
+  .intro { margin-bottom: 2rem; }
+
+  .intro h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 34px;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+
+  .intro h1 em {
+    font-style: italic;
+    color: var(--teal);
+  }
+
+  .intro p {
+    color: var(--ink-soft);
+    font-weight: 300;
+    font-size: 15px;
+    max-width: 520px;
+  }
+
+  /* Card */
+  .card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Tabs */
+  .tab-row {
+    display: flex;
+    gap: 0;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    width: fit-content;
+  }
+
+  .tab {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 7px 18px;
+    background: transparent;
+    border: none;
+    color: var(--ink-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .tab:first-child { border-right: 1px solid var(--border); }
+
+  .tab.active {
+    background: var(--teal);
+    color: white;
+  }
+
+  /* Textarea */
+  .field-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 180px;
+    resize: vertical;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  textarea:focus { border-color: var(--teal-mid); }
+
+  textarea::placeholder { color: var(--ink-muted); }
+
+  .sample-link {
+    font-size: 12px;
+    color: var(--teal);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    margin-top: 8px;
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* File drop */
+  .file-drop {
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius-sm);
+    padding: 2.5rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    background: var(--white);
+    transition: border-color 0.15s;
+  }
+
+  .file-drop:hover { border-color: var(--teal-mid); }
+
+  .file-drop p { font-size: 14px; color: var(--ink-muted); font-weight: 300; }
+
+  .file-drop .file-name {
+    font-size: 13px;
+    color: var(--teal);
+    margin-top: 8px;
+    font-weight: 500;
+  }
+
+  /* Button */
+  .analyze-btn {
+    width: 100%;
+    padding: 14px;
+    margin-top: 1.25rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  .analyze-btn:hover:not(:disabled) { background: var(--teal-mid); }
+  .analyze-btn:active:not(:disabled) { transform: scale(0.99); }
+  .analyze-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  /* Loading */
+  .loading-card {
+    display: none;
+    text-align: center;
+    padding: 2.5rem;
+  }
+
+  .dot-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    background: var(--teal);
+    border-radius: 50%;
+    animation: bounce 1s ease-in-out infinite;
+  }
+
+  .dot:nth-child(2) { animation-delay: 0.15s; }
+  .dot:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+    40% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  .loading-card p { font-size: 14px; color: var(--ink-muted); font-weight: 300; }
+
+  /* Results */
+  .results { display: none; }
+  .results.visible { display: block; }
+
+  .result-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.3s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-card:nth-child(2) { animation-delay: 0.08s; }
+  .result-card:nth-child(3) { animation-delay: 0.16s; }
+
+  .result-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .result-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: var(--ink);
+    letter-spacing: -0.2px;
+  }
+
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+  }
+
+  .badge-teal { background: var(--teal-light); color: var(--teal); }
+  .badge-red { background: var(--red-light); color: var(--red); }
+  .badge-amber { background: var(--amber-light); color: var(--amber); }
+
+  /* Summary */
+  .summary-text {
+    font-size: 15px;
+    color: var(--ink-soft);
+    font-weight: 300;
+    line-height: 1.8;
+  }
+
+  /* Flags */
+  .flag-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .flag-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .flag-item:first-child { padding-top: 0; }
+
+  .flag-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--red);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+
+  .flag-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--red);
+    margin-bottom: 2px;
+  }
+
+  .flag-desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-weight: 300;
+  }
+
+  /* Questions */
+  .question-item {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-soft);
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-weight: 300;
+    line-height: 1.65;
+  }
+
+  .question-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .question-item:first-child { padding-top: 0; }
+
+  .q-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    color: var(--amber);
+    flex-shrink: 0;
+    line-height: 1.5;
+  }
+
+  /* Error */
+  .error-msg {
+    display: none;
+    background: var(--red-light);
+    color: var(--red);
+    border: 1px solid rgba(184,50,50,0.2);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-size: 14px;
+    margin-top: 12px;
+  }
+
+  /* Footer note */
+  .footer-note {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-weight: 300;
+    line-height: 1.7;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <header class="site-header">
+    <span class="logo">ClearConsent</span>
+    <span class="logo-sub">Clinical Trial Literacy Tool</span>
+  </header>
+
+  <div class="intro">
+    <h1>Understand what you're<br><em>actually agreeing to.</em></h1>
+    <p>Paste or upload a clinical trial consent form. We'll translate it into plain English, flag what matters, and suggest questions to ask your doctor.</p>
+  </div>
+
+  <!-- Input card -->
+  <div class="card">
+    <div class="tab-row">
+      <button class="tab active" onclick="switchTab('paste', this)">Paste text</button>
+      <button class="tab" onclick="switchTab('upload', this)">Upload PDF</button>
+    </div>
+
+    <div id="paste-panel">
+      <label class="field-label">Consent form text</label>
+      <textarea id="consent-text" placeholder="Paste your clinical trial consent form here..."></textarea>
+      <button class="sample-link" onclick="loadSample()">Load a sample consent form →</button>
+    </div>
+
+    <div id="upload-panel" style="display:none;">
+      <label class="field-label">Upload consent form (PDF)</label>
+      <div class="file-drop" onclick="document.getElementById('pdf-input').click()">
+        <p>Click to select a PDF file</p>
+        <p style="font-size:12px;margin-top:4px;">Max 10MB</p>
+        <div class="file-name" id="file-name"></div>
+        <input type="file" id="pdf-input" accept=".pdf" style="display:none;" onchange="handleFile(event)" />
+      </div>
+    </div>
+
+    <button class="analyze-btn" id="analyze-btn" onclick="analyze()">Analyze consent form</button>
+    <div class="error-msg" id="error-msg"></div>
+  </div>
+
+  <!-- Loading -->
+  <div class="card loading-card" id="loading-card">
+    <div class="dot-row">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <p>Analyzing your consent form...</p>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+
+    <div class="result-card">
+      <div class="result-header">
+        <span class="result-title">Plain-English summary</span>
+        <span class="badge badge-teal">Summary</span>
+      </div>
+      <div class="summary-text" id="summary-content"></div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-header">
+        <span class="result-title">Red flags to know about</span>
+        <span class="badge badge-red" id="flag-badge"></span>
+      </div>
+      <div id="flags-content"></div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-header">
+        <span class="result-title">Questions to ask your doctor</span>
+        <span class="badge badge-amber" id="q-badge"></span>
+      </div>
+      <div id="questions-content"></div>
+    </div>
+
+  </div>
+
+  <p class="footer-note">
+    Clear Consent is an educational tool and does not constitute medical or legal advice. Always consult with your healthcare provider before making decisions about clinical trial participation. Built as a student project at Rice University for DSCI 305: Data, Ethics, & Society.
+  </p>
+
+</div>
+
+<script>
+  // ── PASTE YOUR GEMINI API KEY HERE ──────────────────────────────────────────
+  const GEMINI_API_KEY = "YOUR_API_KEY_HERE";
+  // ────────────────────────────────────────────────────────────────────────────
+
+  let activeTab = 'paste';
+  let pdfBase64 = null;
+
+  function switchTab(tab, el) {
+    activeTab = tab;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('paste-panel').style.display = tab === 'paste' ? 'block' : 'none';
+    document.getElementById('upload-panel').style.display = tab === 'upload' ? 'block' : 'none';
+  }
+
+  function handleFile(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    document.getElementById('file-name').textContent = file.name;
+    const reader = new FileReader();
+    reader.onload = () => { pdfBase64 = reader.result.split(',')[1]; };
+    reader.readAsDataURL(file);
+  }
+
+  function loadSample() {
+    document.getElementById('consent-text').value = `INFORMED CONSENT FORM — Phase II Randomized Controlled Trial of Investigational Drug XR-402
+
+You are being asked to participate in a research study. Your participation is entirely voluntary. Before you decide, it is important for you to understand why the research is being done and what it will involve.
+
+PURPOSE: This study aims to evaluate the safety and efficacy of XR-402 in patients with moderate-to-severe rheumatoid arthritis who have failed prior biologic therapy.
+
+PROCEDURES: If you agree to participate, you will be randomized (like a coin flip) to receive either XR-402 or a placebo for 52 weeks. You will have 14 clinic visits. Blood samples will be collected at each visit. A bone marrow biopsy will be performed at weeks 0 and 26. You may be required to discontinue your current medications during the washout period of 4 weeks prior to enrollment.
+
+RISKS: The most common side effects include nausea, fatigue, and elevated liver enzymes. Serious adverse events may include increased risk of infection, malignancy, or cardiovascular events. There is a 1 in 200 chance of serious bone marrow complications from the biopsy procedure. Long-term risks are unknown as this drug has only been studied for up to 2 years.
+
+BENEFITS: You may or may not benefit directly from participating. The knowledge gained may help future patients.
+
+COMPENSATION: You will receive $50 per completed visit. Transportation reimbursement is available. In the event of a research-related injury, emergency medical treatment will be provided, but no long-term financial compensation is guaranteed.
+
+CONFIDENTIALITY: Your data will be stored in a de-identified database. Sponsor representatives, IRB members, and regulatory agencies may access your records. Your data may be used in future studies without additional consent.
+
+WITHDRAWAL: You may withdraw at any time. However, data collected prior to withdrawal may still be used by the sponsor. Withdrawal will not affect your standard medical care.
+
+CONTACT: For questions about the study, contact the principal investigator at (000) 000-0000.`;
+  }
+
+  async function analyze() {
+    const btn = document.getElementById('analyze-btn');
+    const loadingCard = document.getElementById('loading-card');
+    const results = document.getElementById('results');
+    const errorMsg = document.getElementById('error-msg');
+
+    errorMsg.style.display = 'none';
+    results.classList.remove('visible');
+
+    let formText = '';
+
+    if (activeTab === 'paste') {
+      formText = document.getElementById('consent-text').value.trim();
+      if (!formText) { showError('Please paste a consent form first.'); return; }
+    } else {
+      if (!pdfBase64) { showError('Please upload a PDF first.'); return; }
+      formText = '[PDF uploaded — analyze the clinical trial consent form in the attached document]';
+    }
+
+    btn.disabled = true;
+    loadingCard.style.display = 'block';
+
+    const prompt = `You are a medical literacy expert helping patients understand clinical trial consent forms. Analyze the following consent form and respond ONLY with a valid JSON object — no markdown, no backticks, no explanation before or after.
+
+The JSON must have exactly this structure:
+{
+  "summary": "A 3-5 sentence plain English summary a patient with a 6th-grade reading level can understand. Use simple words and avoid medical jargon if possible. Explain what the trial is about, what will happen to the patient, and what risks are involved.",
+  "flags": [
+    { "label": "Short flag title (4-6 words)", "description": "One clear sentence explaining why this matters to the patient." }
+  ],
+  "questions": [
+    "Full conversational question the patient should ask their doctor?"
+  ]
+}
+
+Rules:
+- flags: 3-5 items. Focus on things patients often miss: data reuse without consent, limited injury compensation, unknown long-term risks, invasive procedures, medication changes, randomization meaning.
+- questions: 4-6 items. Make them specific to this form's content, conversational, and actionable.
+
+Consent form to analyze:
+${formText}`;
+
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.3, maxOutputTokens: 1200 }
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        const msg = data?.error?.message || 'API error';
+        throw new Error(msg);
+      }
+
+      const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      const clean = raw.replace(/```json|```/g, '').trim();
+      const parsed = JSON.parse(clean);
+      renderResults(parsed);
+
+    } catch (err) {
+      if (err.message.includes('API_KEY') || err.message.includes('key')) {
+        showError('API key issue — make sure you replaced YOUR_API_KEY_HERE with your actual Gemini key.');
+      } else {
+        showError('Something went wrong. Check your API key and try again.');
+      }
+      console.error(err);
+    } finally {
+      btn.disabled = false;
+      loadingCard.style.display = 'none';
+    }
+  }
+
+  function renderResults(data) {
+    document.getElementById('summary-content').textContent = data.summary;
+
+    document.getElementById('flag-badge').textContent = `${data.flags.length} found`;
+    document.getElementById('flags-content').innerHTML = data.flags.map(f => `
+      <div class="flag-item">
+        <div class="flag-dot"></div>
+        <div>
+          <div class="flag-label">${f.label}</div>
+          <div class="flag-desc">${f.description}</div>
+        </div>
+      </div>
+    `).join('');
+
+    document.getElementById('q-badge').textContent = `${data.questions.length} questions`;
+    document.getElementById('questions-content').innerHTML = data.questions.map((q, i) => `
+      <div class="question-item">
+        <span class="q-num">${i + 1}</span>
+        <span>${q}</span>
+      </div>
+    `).join('');
+
+    document.getElementById('results').classList.add('visible');
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('error-msg');
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+</script>
+</body>
+</html>
