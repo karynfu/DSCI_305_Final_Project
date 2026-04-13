@@ -375,6 +375,40 @@
     margin-top: 12px;
   }
 
+  /* Study info grid */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .info-item {
+    background: var(--warm-white);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+  }
+
+  .info-item-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+    margin-bottom: 3px;
+  }
+
+  .info-item-value {
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .info-item.full-width {
+    grid-column: 1 / -1;
+  }
+
   /* Footer note */
   .footer-note {
     margin-top: 3rem;
@@ -441,7 +475,15 @@
 
     <div class="result-card">
       <div class="result-header">
-        <span class="result-title">Plain-English summary</span>
+        <span class="result-title">Study at a Glance</span>
+        <span class="badge badge-teal">Overview</span>
+      </div>
+      <div id="info-content"></div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-header">
+        <span class="result-title">Plain-English Summary</span>
         <span class="badge badge-teal">Summary</span>
       </div>
       <div class="summary-text" id="summary-content"></div>
@@ -449,7 +491,7 @@
 
     <div class="result-card">
       <div class="result-header">
-        <span class="result-title">Red flags to be aware of</span>
+        <span class="result-title">Red Flags to be Aware of</span>
         <span class="badge badge-red" id="flag-badge"></span>
       </div>
       <div id="flags-content"></div>
@@ -457,7 +499,7 @@
 
     <div class="result-card">
       <div class="result-header">
-        <span class="result-title">Questions to ask your doctor</span>
+        <span class="result-title">Questions to Ask Your Doctor</span>
         <span class="badge badge-amber" id="q-badge"></span>
       </div>
       <div id="questions-content"></div>
@@ -473,7 +515,7 @@
 
 <script>
   // ── PASTE YOUR GEMINI API KEY HERE ──────────────────────────────────────────
-  const GEMINI_API_KEY = "YOUR_API_KEY_HERE";
+  const GEMINI_API_KEY = "AIzaSyBpFJ_1u0-SgHZphxWS6YzGLcVD6ZLJ22I";
   // ────────────────────────────────────────────────────────────────────────────
 
   let activeTab = 'paste';
@@ -540,11 +582,22 @@ CONTACT: For questions about the study, contact the principal investigator at (0
     btn.disabled = true;
     loadingCard.style.display = 'block';
 
-    const prompt = `You are a medical literacy expert helping patients understand clinical trial consent forms. Analyze the following consent form and respond ONLY with a valid JSON object — no markdown, no backticks, no explanation before or after.
+    const prompt = `You are a medical literacy expert helping patients understand clinical trial consent forms. Check all answers before formulating a final response and ONLY use information provided in the text or uploaded pdf. Analyze the following consent form and respond ONLY with a valid JSON object — no markdown, no backticks, no explanation before or after.
 
 The JSON must have exactly this structure:
 {
-  "summary": "A 3-5 sentence plain English summary a patient with a 6th-grade reading level can understand. Use simple words and avoid medical jargon if possible. Explain what the trial is about, what will happen to the patient, and what risks are involved.",
+  "info": {
+    "title": "Full study title or best description if not explicitly stated",
+    "phase": "Trial phase (e.g. Phase I, Phase II, Phase III) or Not specified",
+    "condition": "Medical condition or disease being studied",
+    "drug": "Drug or intervention being tested, or Not specified",
+    "duration": "How long participation lasts, or Not specified",
+    "visits": "Number of clinic visits required, or Not specified",
+    "compensation": "Compensation offered, or None mentioned",
+    "location": "Study site or institution name, or Not specified",
+    "pi": "Principal investigator name, or Not specified"
+  },
+  "summary": "A 3-5 sentence plain English summary a patient with a 6th-grade reading level can understand. Use simple words. Explain what the trial is about, what will happen to the patient, and what risks are involved.",
   "flags": [
     { "label": "Short flag title (4-6 words)", "description": "One clear sentence explaining why this matters to the patient." }
   ],
@@ -554,20 +607,21 @@ The JSON must have exactly this structure:
 }
 
 Rules:
-- flags: 3-5 items. Focus on things patients often miss: data reuse without consent, limited injury compensation, unknown long-term risks, invasive procedures, medication changes, randomization meaning.
-- questions: 4-6 items. Make them specific to this form's content, conversational, and actionable.
+- info: extract directly from the form. If a field is not mentioned, use Not specified.
+- flags: 3-4 items. Focus on things patients often miss: data reuse without consent, limited injury compensation, unknown long-term risks, invasive procedures, medication changes, randomization meaning.
+- questions: 4-5 items. Make them specific to this form's content, conversational, and actionable.
 
 Consent form to analyze:
 ${formText}`;
 
     try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.3, maxOutputTokens: 1200 }
+          generationConfig: { temperature: 0.3, maxOutputTokens: 4000 }
         })
       });
 
@@ -597,6 +651,28 @@ ${formText}`;
   }
 
   function renderResults(data) {
+    const info = data.info || {};
+    const infoFields = [
+      { label: 'Study title', value: info.title, full: true },
+      { label: 'Condition', value: info.condition },
+      { label: 'Drug / intervention', value: info.drug },
+      { label: 'Trial phase', value: info.phase },
+      { label: 'Duration', value: info.duration },
+      { label: 'Clinic visits', value: info.visits },
+      { label: 'Compensation', value: info.compensation },
+      { label: 'Study location', value: info.location },
+      { label: 'Principal investigator', value: info.pi },
+    ];
+    document.getElementById('info-content').innerHTML = `
+      <div class="info-grid">
+        ${infoFields.map(f => `
+          <div class="info-item${f.full ? ' full-width' : ''}">
+            <div class="info-item-label">${f.label}</div>
+            <div class="info-item-value">${f.value || 'Not specified'}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
     document.getElementById('summary-content').textContent = data.summary;
 
     document.getElementById('flag-badge').textContent = `${data.flags.length} found`;
