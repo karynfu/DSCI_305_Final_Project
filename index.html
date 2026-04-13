@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Clear Consent — Helping You Understand Clinical Trial Consent Forms</title>
+<title>Clear Consent — Understand Your Clinical Trial Consent Forms</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
   :root {
@@ -393,12 +393,12 @@
 
   <header class="site-header">
     <span class="logo">ClearConsent</span>
-    <span class="logo-sub">Clinical Trial Literacy Tool</span>
+    <span class="logo-sub">Helping You Understand Clinical Trial Consent Forms</span>
   </header>
 
   <div class="intro">
     <h1>Understand what you're<br><em>actually agreeing to.</em></h1>
-    <p>Paste or upload a clinical trial consent form. We'll translate it into plain English, flag what matters, and suggest questions to ask your doctor.</p>
+    <p>Paste or upload a clinical trial consent form. We'll translate it into plain English, flag key points, and suggest questions to ask your doctor.</p>
   </div>
 
   <!-- Input card -->
@@ -409,8 +409,8 @@
     </div>
 
     <div id="paste-panel">
-      <label class="field-label">Consent form text</label>
-      <textarea id="consent-text" placeholder="Paste your clinical trial consent form here..."></textarea>
+      <label class="field-label">Copy/paste Consent form text</label>
+      <textarea id="consent-text" placeholder="Copy your clinical trial consent form, then paste it here"></textarea>
       <button class="sample-link" onclick="loadSample()">Load a sample consent form →</button>
     </div>
 
@@ -449,7 +449,7 @@
 
     <div class="result-card">
       <div class="result-header">
-        <span class="result-title">Red flags to know about</span>
+        <span class="result-title">Red flags to be aware of</span>
         <span class="badge badge-red" id="flag-badge"></span>
       </div>
       <div id="flags-content"></div>
