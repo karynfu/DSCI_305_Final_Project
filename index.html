@@ -514,9 +514,7 @@
 </div>
 
 <script>
-  // ── PASTE YOUR GEMINI API KEY HERE ──────────────────────────────────────────
-  const GEMINI_API_KEY = "AIzaSyBpFJ_1u0-SgHZphxWS6YzGLcVD6ZLJ22I";
-  // ────────────────────────────────────────────────────────────────────────────
+  const GEMINI_API_KEY = "xxxxx";
 
   let activeTab = 'paste';
   let pdfBase64 = null;
@@ -570,19 +568,20 @@ CONTACT: For questions about the study, contact the principal investigator at (0
     results.classList.remove('visible');
 
     let formText = '';
+    let usePdf = false;
 
     if (activeTab === 'paste') {
       formText = document.getElementById('consent-text').value.trim();
       if (!formText) { showError('Please paste a consent form first.'); return; }
     } else {
       if (!pdfBase64) { showError('Please upload a PDF first.'); return; }
-      formText = '[PDF uploaded — analyze the clinical trial consent form in the attached document]';
+      usePdf = true;
     }
 
     btn.disabled = true;
     loadingCard.style.display = 'block';
 
-    const prompt = `You are a medical literacy expert helping patients understand clinical trial consent forms. Check all answers before formulating a final response and ONLY use information provided in the text or uploaded pdf. Analyze the following consent form and respond ONLY with a valid JSON object — no markdown, no backticks, no explanation before or after.
+    const promptIntro = `You are a medical literacy expert helping patients understand clinical trial consent forms. Check all answers before formulating a final response and ONLY use information provided in the text or uploaded pdf. Analyze the ${usePdf ? 'attached PDF consent form' : 'consent form below'} and respond ONLY with a valid JSON object — no markdown, no backticks, no explanation before or after.
 
 The JSON must have exactly this structure:
 {
@@ -610,9 +609,18 @@ Rules:
 - info: extract directly from the form. If a field is not mentioned, use Not specified.
 - flags: 3-4 items. Focus on things patients often miss: data reuse without consent, limited injury compensation, unknown long-term risks, invasive procedures, medication changes, randomization meaning.
 - questions: 4-5 items. Make them specific to this form's content, conversational, and actionable.
+- If a field, flag, or question cannot be determined from the provided content, use "Not specified" rather than inventing details.`;
 
-Consent form to analyze:
-${formText}`;
+    const prompt = usePdf
+      ? promptIntro
+      : `${promptIntro}\n\nConsent form to analyze:\n${formText}`;
+
+    const parts = usePdf
+      ? [
+          { inline_data: { mime_type: 'application/pdf', data: pdfBase64 } },
+          { text: prompt }
+        ]
+      : [{ text: prompt }];
 
     try {
       const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
@@ -620,8 +628,8 @@ ${formText}`;
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.3, maxOutputTokens: 4000 }
+          contents: [{ parts: parts }],
+          generationConfig: { temperature: 0.1, maxOutputTokens: 4000, responseMimeType: 'application/json' }
         })
       });
 
