@@ -46,11 +46,28 @@
   .site-header {
     display: flex;
     align-items: baseline;
+    justify-content: space-between;
     gap: 10px;
     margin-bottom: 3rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
   }
+
+  .brand { display: flex; align-items: baseline; gap: 10px; }
+
+  .nav-links { display: flex; gap: 18px; }
+
+  .nav-links a {
+    font-size: 13px;
+    color: var(--ink-muted);
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.15s;
+  }
+
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active { color: var(--teal); font-weight: 500; }
 
   .logo {
     font-family: 'DM Serif Display', serif;
@@ -426,8 +443,14 @@
 <div class="page-wrap">
 
   <header class="site-header">
-    <span class="logo">ClearConsent</span>
-    <span class="logo-sub">Helping You Understand Clinical Trial Consent Forms</span>
+    <div class="brand">
+      <span class="logo">ClearConsent</span>
+      <span class="logo-sub">Helping You Understand Clinical Trial Consent Forms</span>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="guide.html">User Guide</a>
+    </nav>
   </header>
 
   <div class="intro">
@@ -514,7 +537,9 @@
 </div>
 
 <script>
-  const GEMINI_API_KEY = "xxxxx";
+  // ── PASTE YOUR GEMINI API KEY HERE ──────────────────────────────────────────
+  const GEMINI_API_KEY = "AQ.Ab8RN6I7w38peoNugyPB3ADuUZq9XwImRct4LkyvrttBFZaCfQ";
+  // ────────────────────────────────────────────────────────────────────────────
 
   let activeTab = 'paste';
   let pdfBase64 = null;
@@ -629,7 +654,12 @@ Rules:
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: parts }],
-          generationConfig: { temperature: 0.1, maxOutputTokens: 4000, responseMimeType: 'application/json' }
+          generationConfig: {
+            temperature: 0.1,
+            maxOutputTokens: 8192,
+            responseMimeType: 'application/json',
+            thinkingConfig: { thinkingBudget: 0 }
+          }
         })
       });
 
@@ -640,17 +670,22 @@ Rules:
         throw new Error(msg);
       }
 
+      const finishReason = data.candidates?.[0]?.finishReason;
       const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      if (!raw) {
+        throw new Error(`Empty response from model (finishReason: ${finishReason || 'unknown'}).`);
+      }
       const clean = raw.replace(/```json|```/g, '').trim();
-      const parsed = JSON.parse(clean);
+      let parsed;
+      try {
+        parsed = JSON.parse(clean);
+      } catch {
+        throw new Error('Model returned invalid JSON. Raw output: ' + clean.slice(0, 200));
+      }
       renderResults(parsed);
 
     } catch (err) {
-      if (err.message.includes('API_KEY') || err.message.includes('key')) {
-        showError('API key issue — make sure you replaced YOUR_API_KEY_HERE with your actual Gemini key.');
-      } else {
-        showError('Something went wrong. Check your API key and try again.');
-      }
+      showError(err.message || 'Something went wrong. Please try again.');
       console.error(err);
     } finally {
       btn.disabled = false;

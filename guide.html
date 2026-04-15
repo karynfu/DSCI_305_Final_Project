@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>User Guide — ClearConsent</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --white: #FFFFFF;
+    --warm-white: #FDFCF9;
+    --ink: #000000;
+    --ink-soft: #1c150a;
+    --ink-muted: #3d3a34;
+    --teal: #1D6A5A;
+    --teal-light: #E6F2EF;
+    --teal-mid: #2D8A72;
+    --amber: #C4700A;
+    --amber-light: #FDF3E3;
+    --red: #B83232;
+    --red-light: #FCEAEA;
+    --border: rgba(26,24,20,0.12);
+    --border-soft: rgba(26,24,20,0.07);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .page-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 6rem;
+  }
+
+  /* Header */
+  .site-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .brand { display: flex; align-items: baseline; gap: 10px; }
+
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--teal);
+    letter-spacing: -0.3px;
+  }
+
+  .logo-sub {
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .nav-links { display: flex; gap: 18px; }
+
+  .nav-links a {
+    font-size: 13px;
+    color: var(--ink-muted);
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.15s;
+  }
+
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active { color: var(--teal); font-weight: 500; }
+
+  /* Intro */
+  .intro { margin-bottom: 2.5rem; }
+
+  .intro h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 34px;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+  }
+
+  .intro h1 em { font-style: italic; color: var(--teal); }
+
+  .intro p {
+    color: var(--ink-soft);
+    font-weight: 300;
+    font-size: 15px;
+    max-width: 560px;
+  }
+
+  /* Section */
+  section { margin-bottom: 2.25rem; }
+
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: -0.2px;
+    margin-bottom: 0.75rem;
+  }
+
+  h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 1.25rem 0 0.5rem;
+    letter-spacing: 0.01em;
+  }
+
+  p { color: var(--ink-soft); font-weight: 300; margin-bottom: 0.75rem; }
+
+  /* Step list */
+  ol.steps {
+    list-style: none;
+    counter-reset: step;
+    padding: 0;
+    margin: 0.5rem 0 0;
+  }
+
+  ol.steps li {
+    counter-increment: step;
+    position: relative;
+    padding: 14px 14px 14px 52px;
+    margin-bottom: 10px;
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--ink-soft);
+    font-weight: 300;
+    font-size: 14.5px;
+  }
+
+  ol.steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 14px;
+    top: 12px;
+    width: 26px;
+    height: 26px;
+    background: var(--teal);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  ol.steps li strong { color: var(--ink); font-weight: 500; }
+
+  /* Info card */
+  .info-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin: 0.75rem 0 0.25rem;
+  }
+
+  .info-card .card-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--teal);
+    margin-bottom: 6px;
+  }
+
+  .info-card .card-label.red { color: var(--red); }
+  .info-card .card-label.amber { color: var(--amber); }
+
+  .info-card h4 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .info-card p { font-size: 14.5px; margin: 0; }
+
+  /* Bullet list */
+  ul.plain {
+    list-style: none;
+    padding: 0;
+    margin: 0.25rem 0;
+  }
+
+  ul.plain li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    font-weight: 300;
+    margin-bottom: 6px;
+  }
+
+  ul.plain li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 10px;
+    width: 5px;
+    height: 5px;
+    background: var(--teal);
+    border-radius: 50%;
+  }
+
+  /* FAQ */
+  details {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-bottom: 8px;
+  }
+
+  details summary {
+    cursor: pointer;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--ink);
+    list-style: none;
+  }
+
+  details summary::-webkit-details-marker { display: none; }
+
+  details summary::after {
+    content: "+";
+    float: right;
+    color: var(--teal);
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  details[open] summary::after { content: "–"; }
+
+  details p {
+    margin-top: 10px;
+    font-size: 14.5px;
+  }
+
+  /* CTA */
+  .cta {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 12px 22px;
+    background: var(--teal);
+    color: white;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-size: 14.5px;
+    font-weight: 500;
+    transition: background 0.15s;
+  }
+
+  .cta:hover { background: var(--teal-mid); }
+
+  /* Footer */
+  .footer-note {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--ink-muted);
+    font-weight: 300;
+    line-height: 1.7;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <header class="site-header">
+    <div class="brand">
+      <span class="logo">ClearConsent</span>
+      <span class="logo-sub">User Guide</span>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="guide.html" class="active">Guide</a>
+    </nav>
+  </header>
+
+  <div class="intro">
+    <h1>How to use<br><em>ClearConsent.</em></h1>
+    <p>A step-by-step walkthrough for patients, caregivers, and research coordinators who want to turn a dense consent form into something they can actually understand.</p>
+  </div>
+
+  <!-- Why use this -->
+  <section>
+    <h2>Why you might use this</h2>
+    <p>Most clinical trial consent forms are written at a college reading level and run 20+ pages. If you've been handed one and feel like you're missing what you're actually agreeing to, you're not alone. Research shows most trial participants can't accurately describe key parts of their own study after signing.</p>
+    <p>ClearConsent takes the form you were given and does four things:</p>
+    <ul class="plain">
+      <li>Pulls out the <strong>key facts</strong> (condition, drug, trial phase, duration, visits, compensation).</li>
+      <li>Writes a <strong>plain-English summary</strong> at roughly a 6th-grade reading level.</li>
+      <li>Highlights <strong>red-flag clauses</strong> patients often miss (ex. data reuse, limited injury pay, unknown long-term risks).</li>
+      <li>Suggests <strong>questions to ask your doctor</strong> when you discuss enrollment.</li>
+    </ul>
+  </section>
+
+  <!-- Getting started -->
+  <section>
+    <h2>Getting started</h2>
+    <ol class="steps">
+      <li>Open <strong>ClearConsent</strong> in your browser.</li>
+      <li>Have your consent form ready, either as a <strong>PDF file</strong> or as <strong>copied text</strong> from the document.</li>
+      <li>Decide which input method to use. Both produce the same kind of analysis; pick whichever is more convenient.</li>
+    </ol>
+  </section>
+
+  <!-- Input methods -->
+  <section>
+    <h2>Two ways to submit a form</h2>
+
+    <div class="info-card">
+      <div class="card-label">Option A — Paste text</div>
+      <h4>Fastest if you already have the text</h4>
+      <p>Click the <strong>Paste text</strong> tab. Copy the full body of the consent form and paste it into the box. Then click <strong>Analyze consent form</strong>. If you want to try the tool without a real form, click <em>Load a sample consent form →</em>.</p>
+    </div>
+
+    <div class="info-card">
+      <div class="card-label">Option B — Upload PDF</div>
+      <h4>Best if you only have the PDF</h4>
+      <p>Click the <strong>Upload PDF</strong> tab, then click the dashed drop zone to pick your file. Make sure the PDF is downloaded to your device. Maximum file size is 10MB.</p>
+    </div>
+  </section>
+
+  <!-- Reading the results -->
+  <section>
+    <h2>Reading your results</h2>
+    <p>After a few seconds of loading, you'll see four cards. Here's what each one is for and how to use it.</p>
+
+    <div class="info-card">
+      <div class="card-label">1. Study at a Glance</div>
+      <p>A structured summary of the trial's core details: condition being studied, drug or intervention, trial phase, duration, number of visits, compensation, location, and principal investigator. If the form doesn't mention a field, you'll see <em>Not specified</em> rather than a made-up answer.</p>
+    </div>
+
+    <div class="info-card">
+      <div class="card-label">2. Plain-English Summary</div>
+      <p>A 3–5 sentence explanation of the study written at roughly a 6th-grade reading level. Covers what the trial is testing, what will happen to you as a participant, and the main risks involved. Good to read first if you only have a minute.</p>
+    </div>
+
+    <div class="info-card">
+      <div class="card-label red">3. Red Flags to Be Aware Of</div>
+      <p>3–4 specific clauses that are worth re-reading closely; things like data being reused for future research without your consent, limited financial compensation if you're injured, unknown long-term risks, invasive procedures, or being randomly assigned to a placebo. These are not necessarily reasons to refuse the trial, but rather points you should make sure you understand before signing.</p>
+    </div>
+
+    <div class="info-card">
+      <div class="card-label amber">4. Questions to Ask Your Doctor</div>
+      <p>4–5 conversational, actionable questions tailored to your specific form. Bring these to your next appointment with the study team or your primary care provider. </p>
+    </div>
+  </section>
+
+  <!-- Tips -->
+  <section>
+    <h2>Tips for the best results</h2>
+    <ul class="plain">
+      <li><strong>Upload the full form, not an excerpt.</strong> The model's analysis is only as good as the content it sees. A one-page summary will produce a vaguer output than the complete document.</li>
+      <li><strong>Use the PDF upload for scanned or formatted forms.</strong> Pasting sometimes drops tables and headers; uploading preserves the original layout.</li>
+      <li><strong>Don't upload forms with your personal health information.</strong> The form is sent to Google's API. Stick to generic forms or redact patient-identifying details first.</li>
+      <li><strong>Treat the output as a starting point, not a verdict.</strong> The red flags and questions are meant to trigger a better conversation with your care team — not replace one.</li>
+    </ul>
+  </section>
+
+  <!-- Troubleshooting -->
+  <section>
+    <h2>Troubleshooting</h2>
+
+    <details>
+      <summary>The page shows "Empty response from model"</summary>
+      <p>This usually means the form is unusually long and the model ran out of space to write its answer. Try splitting the form and analyzing each section separately, or use the paste option with just the key sections (purpose, procedures, risks, compensation, confidentiality).</p>
+    </details>
+
+    <details>
+      <summary>The page shows an API key error</summary>
+      <p>The Gemini API key has either expired, been rotated, or hit its daily free-tier quota. If you're running the tool yourself, get a new key from <a href="https://aistudio.google.com/app/apikey">Google AI Studio</a> and paste it into the top of the <code>&lt;script&gt;</code> block in <code>index.html</code>.</p>
+    </details>
+
+    <details>
+      <summary>The output mentions details my form doesn't contain</summary>
+      <p>Re-check that you uploaded the correct file or pasted the full text. If the form is extremely short or cut off, the model may fill gaps with plausible-sounding defaults. The prompt is tuned to use <em>Not specified</em> instead, but this can still happen — if you see something that looks invented, trust the original document.</p>
+    </details>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <h2>Ready to try it?</h2>
+    <p>Grab a consent form, or use the sample one built into the tool, and see it translated in about a minute.</p>
+    <a class="cta" href="index.html">Open ClearConsent →</a>
+  </section>
+
+  <p class="footer-note">
+    ClearConsent is an educational tool and does not constitute medical or legal advice. Always consult with your healthcare provider before making decisions about clinical trial participation. Built as a student project at Rice University for DSCI 305: Data, Ethics, & Society.
+  </p>
+
+</div>
+
+</body>
+</html>
