@@ -59,7 +59,7 @@ The goal is not to replace the consent process or give medical advice; it's to e
 ## Running Locally
 
 1. Open [`index.html`](index.html) in any modern browser. That's it.
-2. The Gemini API key is embedded at the top of the `<script>` block. Swap in your own key from [Google AI Studio](https://aistudio.google.com/app/apikey) to use the application. Note: for DSCI 305, a HTML file with my personal Gemini API key was submitted.
+2. The Gemini API key is embedded at the top of the `<script>` block. Swap in your own key from [Google AI Studio](https://aistudio.google.com/app/apikey) to use the application. Note: for DSCI 305, a zip file containing the web application, with my personal API key, was submitted.
 
 ## Using the Tool
 
