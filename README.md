@@ -10,8 +10,8 @@ Built as a student project at Rice University for DSCI 305: Data, Ethics, & Soci
 
 Informed consent is supposed to be the ethical foundation of clinical research, but consent forms are often long, confusing, and filled with medical jargon that make it difficult for patients to understand exactly what they are consenting to.
 
-- The average U.S. adult reads at roughly an **8th-grade level** [[1]](#ref1), and the NIH / NCI recommend consent forms be written at a **6th–8th-grade level** [[2]](#ref2).
-- In practice, most clinical trial consent forms are written at a **college reading level or higher** [[3]](#ref3), with median lengths well over 20 pages of dense legal and medical language [[4]](#ref4).
+- A majority of American adults read at **below a 6th-grade level** [[1]](#ref1), and the NIH / NCI recommend consent forms be written at a **6th–8th-grade level** [[2]](#ref2).
+- In practice, most clinical trial consent forms are written at a **10th-11th grade level** [[3]](#ref3), with median lengths well over 10 pages of dense legal and medical language [[4]](#ref4).
 - Studies have repeatedly shown that a large share of trial participants cannot accurately describe key elements of the study they agreed to, including the risks, that they might receive a placebo, or that their data may be reused [[5]](#ref5).
 
 The result: patients sign documents they do not fully understand, consent to risks they did not notice, and miss the chance to ask their doctor the questions that matter most to them. This is a real ethical gap between the *legal* requirement of informed consent and the *practical* reality of whether consent is truly informed.
@@ -67,6 +67,7 @@ See the in-app **[User Guide](guide.html)** page for a step-by-step walkthrough 
 
 ## Limitations and Ethical Considerations
 
+- **Built with ethics as the primary consideration.** ClearConsent was built in compliance with the ACM Code of Ethics and Professional Conduct, and designed to promote true informed consent.
 - **Not medical or legal advice.** ClearConsent is an educational tool. It does not replace the clinical investigator, the IRB, or a patient's healthcare team.
 - **LLM error is possible.** Even with low temperature, strict prompting, and forced JSON output, a language model can still misread a form. The red flags and summary should be treated as a starting point for conversation, not a definitive analysis.
 - **Privacy.** Uploaded consent forms are sent to Google's Gemini API and are subject to Google's data handling policies. Users should not upload forms containing identifying patient information.
@@ -94,11 +95,11 @@ ClearConsent is a student project and does not constitute medical or legal advic
 
 ## References
 
-<a id="ref1"></a>[1] Kutner M, Greenberg E, Jin Y, Paulsen C. *The Health Literacy of America's Adults: Results From the 2003 National Assessment of Adult Literacy* (NCES 2006-483). U.S. Department of Education, National Center for Education Statistics; 2006. https://nces.ed.gov/pubs2006/2006483.pdf
+<a id="ref1"></a>[1] 2024-2025 Literacy Statistics. National Literacy Institute. Accessed April 15, 2026. https://www.thenationalliteracyinstitute.com/2024-2025-literacy-statistics
 
 <a id="ref2"></a>[2] National Institutes of Health. *How To Write An Effective Consent Form: a Workshop for Investigators, Protocol Navigators and Research Staff.* NIH, National Institutes of Health. https://irbo.nih.gov/documents/303/Resource_and_Tools-v._3.14.2024.pdf
 
-<a id="ref3"></a>[3] Paasche-Orlow MK, Taylor HA, Brancati FL. Readability standards for informed-consent forms as compared with actual readability. *New England Journal of Medicine.* 2003;348(8):721–726. https://doi.org/10.1056/NEJMsa021212
+<a id="ref3"></a>[3] Paasche-Orlow MK, Taylor HA, Brancati FL. Readability Standards for Informed-Consent Forms as Compared with Actual Readability. N Engl J Med. 2003;348(8):721-726. doi:10.1056/NEJMsa021212
 
 <a id="ref4"></a>[4] Beardsley E, Jefford M, Mileshkin L. Longer consent forms for clinical trials compromise patient understanding: so why are they lengthening? *Journal of Clinical Oncology.* 2007;25(9):e13–e14. https://doi.org/10.1200/JCO.2006.10.3341
 
